@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat Message Compressor</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Chat Message Compressor</h1>
+    <form method="POST" enctype="multipart/form-data">
+      <textarea name="user_input" placeholder="Type your message..."></textarea>
+      <input type="file" name="file_input" accept=".txt">
+      <div class="button-group">
+        <button type="submit">Send & Compress</button>
+        <button type="button" onclick="resetForm()">Reset</button>
+      </div>
+    </form>
+
+    <label class="dark-mode-toggle">
+      <input type="checkbox" id="toggle-dark"> Dark Mode
+    </label>
+
+    {% if encoded %}
+    <div class="results fade-in">
+      <h3>Encoded Message:</h3>
+      <p id="encodedText">{{ encoded }}</p>
+      <button onclick="copyToClipboard('encodedText')"> Copy Encoded</button>
+
+      <h3>Decoded Message:</h3>
+      <p id="decodedText">{{ decoded }}</p>
+      <button onclick="copyToClipboard('decodedText')"> Copy Decoded</button>
+
+      <div class="stats">
+        <p> Original Size: {{ original_size }}</p>
+        <p> Compressed Size: {{ compressed_size }}</p>
+        <p> Compression Ratio: {{ compression_ratio }}</p>
+        <div class="progress">
+          <div class="bar" style="width: {{ compression_ratio | replace('%', '') }}%"></div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+<script>
+function copyToClipboard(id) {
+  let text = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    alert("Copied!");
+  });
+}
+
+function resetForm() {
+  document.querySelector("textarea").value = "";
+  document.querySelector("input[type='file']").value = "";
+  window.location.href = "/";
+}
+
+const themeToggle = document.getElementById("toggle-dark");
+themeToggle.addEventListener("change", function () {
+  document.body.classList.toggle("dark");
+});
+</script>
+</body>
+</html>
