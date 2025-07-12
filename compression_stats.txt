@@ -1,0 +1,3 @@
+Original size: 32 bits
+Compressed size: 4 bits
+Compression ratio: 12.5%
